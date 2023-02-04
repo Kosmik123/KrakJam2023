@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         HandleMovement();
-
     }
 
     private void HandleMovement()
@@ -61,6 +60,6 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanMove(Vector3 direction)
     {
-        return Physics.Raycast(transform.position, direction, 0.8f, obstacleLayers);
+        return !Physics.SphereCast(new Ray(transform.position, direction), 0.4f, 1.5f, obstacleLayers);
     }
 }
