@@ -18,7 +18,6 @@ public class RootRenderer : MonoBehaviour
     [SerializeField]
     private int maxSingleSegmentLength;
 
-
     private Mesh mesh;
 
 
@@ -50,11 +49,6 @@ public class RootRenderer : MonoBehaviour
             int zDiff = nodePosition.z - previousNodePosition.z;
 
             Vector3 direction = new Vector3(xDiff, yDiff, zDiff).normalized;
-            if (lastNode)
-                Debug.Log("Last: " + direction);
-            else if (firstNode)
-                Debug.Log("First: " + direction);
-
             int signedLength = xDiff + yDiff + zDiff;
             int length = Mathf.Abs(signedLength);
 
@@ -92,7 +86,6 @@ public class RootRenderer : MonoBehaviour
                 };
                 meshInstances.Add(segmentMeshInstance);
             }
-
 
 
             if (nodeIndex != nodesCount - 1)

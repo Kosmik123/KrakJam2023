@@ -60,6 +60,6 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanMove(Vector3 direction)
     {
-        return !Physics.SphereCast(new Ray(transform.position, direction), 0.4f, 1.5f, obstacleLayers);
+        return !Physics.SphereCast(new Ray(transform.position, direction), 0.4f, 0.6f, obstacleLayers);
     }
 }
