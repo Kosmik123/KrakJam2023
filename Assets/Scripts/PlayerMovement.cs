@@ -2,11 +2,13 @@
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("To Link")]
     [SerializeField]
     private GridPosition gridPosition;
     [SerializeField]
     private Transform forwardProvider;
 
+    [Header("Input")]
     [SerializeField]
     private KeyCode upKey = KeyCode.W;
     [SerializeField]
@@ -16,6 +18,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private KeyCode rightKey = KeyCode.D;
 
+    [Header("Settings")]
+    [SerializeField]
+    private LayerMask obstacleLayers;
+
     private void Reset()
     {
         gridPosition = GetComponent<GridPosition>();
@@ -23,21 +29,37 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        HandleMovement();
+    }
+
+    private void HandleMovement()
+    {
         if (Input.GetKeyDown(upKey))
         {
-            gridPosition.Position += forwardProvider.up.ToVector3Int();
+            HandleMove(forwardProvider.up);
         }
         else if (Input.GetKeyDown(downKey))
         {
-            gridPosition.Position -= forwardProvider.up.ToVector3Int();
+            HandleMove(-forwardProvider.up);
         }
         else if (Input.GetKeyDown(rightKey))
         {
-            gridPosition.Position += forwardProvider.right.ToVector3Int();
+            HandleMove(forwardProvider.right);
         }
         else if (Input.GetKeyDown(leftKey))
         {
-            gridPosition.Position -= forwardProvider.right.ToVector3Int();
+            HandleMove(-forwardProvider.right);
         }
+    }
+
+    private void HandleMove(Vector3 direction)
+    {
+        if (CanMove(direction))
+            gridPosition.Position += direction.ToVector3Int();
+    }
+
+    private bool CanMove(Vector3 direction)
+    {
+        return !Physics.SphereCast(new Ray(transform.position, direction), 0.4f, 1.5f, obstacleLayers);
     }
 }
