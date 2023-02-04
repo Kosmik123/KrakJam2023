@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6820899549940021641}
   - component: {fileID: 6820899549940021640}
-  - component: {fileID: 6820899549940021642}
   - component: {fileID: 6820899549940021643}
   - component: {fileID: 6820899549940021749}
-  - component: {fileID: 6709169054100769960}
+  - component: {fileID: -2514366359452677132}
+  - component: {fileID: -8650000635571310500}
   m_Layer: 0
   m_Name: "GlizdaMateria\u0142"
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6820899549940021748}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.64, y: 0.7005772, z: 0.44717413}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,19 +43,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6820899549940021748}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &6820899549940021642
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6820899549940021748}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &6820899549940021643
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -110,7 +97,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnPotins: {fileID: 0}
---- !u!54 &6709169054100769960
+  Score: {fileID: 0}
+--- !u!65 &-2514366359452677132
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6820899549940021748}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &-8650000635571310500
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +122,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126

@@ -10,6 +10,7 @@ public class RespawnPotins : MonoBehaviour
     [SerializeField] int[] sectionSizeX = new int[2] ;
     [SerializeField] int[] sectionSizeY = new int[2] ;
     [SerializeField] int[] sectionSizeZ = new int[2] ;
+    public int Score = 0 ;
 
     private int axisX;
     private int axisY;
