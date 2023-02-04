@@ -4,7 +4,7 @@ public class GridPosition : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField]
-    private float updateSpeed;
+    private TransformSmoother transformSmoother;
 
     [Header("States")]
     [SerializeField]
@@ -14,29 +14,18 @@ public class GridPosition : MonoBehaviour
         get => position;
         set
         {
-            position = value;
-            timer = 0;
+            transformSmoother.Position = position = value;
         }
     }
-
-    private float timer;
-
-    private void Update()
-    {
-        if (timer > 1)
-        {
-            transform.position = position;
-        }
-        else
-        {
-            timer += updateSpeed * Time.deltaTime;
-
-        }
-
-
-    }
-
-
 }
 
-
+public static class Vector3Extension
+{
+    public static Vector3Int ToVector3Int(this Vector3 vector)
+    {
+        return new Vector3Int(
+            Mathf.RoundToInt(vector.x),
+            Mathf.RoundToInt(vector.y),
+            Mathf.RoundToInt(vector.z));
+    }
+}
