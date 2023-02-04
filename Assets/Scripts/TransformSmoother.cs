@@ -48,7 +48,11 @@ public class TransformSmoother : MonoBehaviour
         {
             timer += Time.deltaTime * updateSpeed;
             currentPositon = Vector3.Lerp(initialPositon, targetPosition, timer);
-            currentRotation = Quaternion.Lerp(initialRotation, targetRotation, timer);
+            currentRotation = new Quaternion(
+                Mathf.Lerp(initialRotation.x, targetRotation.x, timer),
+                Mathf.Lerp(initialRotation.y, targetRotation.y, timer),
+                Mathf.Lerp(initialRotation.z, targetRotation.z, timer),
+                Mathf.Lerp(initialRotation.w, targetRotation.w, timer));
         }
         else
         {
