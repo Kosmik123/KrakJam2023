@@ -12,7 +12,7 @@ public class LevelGenerator : MonoBehaviour
     [ContextMenu("Generate level")]
     public void GenerateLevel()
     {
-        var roots = GetComponentsInChildren<Root>();
+        var roots = rootsGenerator.GetComponentsInChildren<Root>();
         rootsGenerator.Roots = roots;
         rootsGenerator.OnRootsGenerated += RootsGenerator_OnRootsGenerated;
         rootsGenerator.Generate();
