@@ -948,6 +948,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  sectionSizeX: 0100000005000000
+  sectionSizeY: 0100000005000000
+  sectionSizeZ: 0100000005000000
 --- !u!1 &1534938850
 GameObject:
   m_ObjectHideFlags: 0

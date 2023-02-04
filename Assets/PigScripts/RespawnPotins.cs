@@ -7,6 +7,10 @@ public class RespawnPotins : MonoBehaviour
     [SerializeField] GameObject Kret;
     [SerializeField] GameObject prefabGlizda;
     [SerializeField] GameObject[] pointsTab = new GameObject[5] ;
+    [SerializeField] int[] sectionSizeX = new int[2] ;
+    [SerializeField] int[] sectionSizeY = new int[2] ;
+    [SerializeField] int[] sectionSizeZ = new int[2] ;
+
     private int axisX;
     private int axisY;
     private int axisZ;
@@ -31,9 +35,9 @@ public class RespawnPotins : MonoBehaviour
     public Vector3 drawPosition()
     {
 
-        axisX = Random.Range(1, 5);
-        axisY = Random.Range(1, 5);
-        axisZ = Random.Range(1, 5);
+        axisX = Random.Range(sectionSizeX[0], sectionSizeX[1]);
+        axisY = Random.Range(sectionSizeY[0], sectionSizeY[1]);
+        axisZ = Random.Range(sectionSizeZ[0], sectionSizeZ[1]);
         Debug.Log(new Vector3(axisX, axisY, axisZ));
         return new Vector3(axisX, axisY, axisZ);
     }
