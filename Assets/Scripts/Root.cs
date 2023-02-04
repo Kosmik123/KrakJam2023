@@ -19,11 +19,18 @@ public class Root : MonoBehaviour
     [SerializeField]
     private int segmentsCount;
     public int SegmentsCount => segmentsCount;
+    [SerializeField]
+    private Color gizmosColor = Color.white;
 
     [Header("States")]
     [SerializeField]
     private List<RootNode> nodes = new List<RootNode>();
-    public List<RootNode> Nodes { get => nodes; set => nodes = value; }
+    public List<RootNode> Nodes 
+    { 
+        get => nodes;
+        set => nodes = value; 
+    }
+
 
     private void OnDrawGizmosSelected()
     {
@@ -32,11 +39,11 @@ public class Root : MonoBehaviour
         if (len <= 0)
             return;
 
-        Gizmos.color = Color.white;
+        Gizmos.color = gizmosColor;
         GizmosDrawNode(nodes[0], position);
         for (int i = 1; i < len; i++)
         {
-            Gizmos.DrawLine(nodes[i - 1].Position, nodes[i].Position);
+            Gizmos.DrawLine(position + nodes[i - 1].Position, position + nodes[i].Position);
             GizmosDrawNode(nodes[i], position);
         }
     }
@@ -46,5 +53,4 @@ public class Root : MonoBehaviour
         const float nodeRadius = 0.1f;
         //Gizmos.DrawSphere(position.ToVector3Int() + node.Position, nodeRadius);
     }
-
 }

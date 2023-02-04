@@ -13,16 +13,6 @@ public class RootGenerator : MonoBehaviour
     [SerializeField]
     private RootGenerationStrategy strategy;
 
-    [Header("Settings")]
-    [SerializeField]
-    private int segmentsCount;
-    [Space]
-    [SerializeField]
-    private int minSegmentLength;
-    [SerializeField]
-    private int maxSegmentLength;
-
-
     [ContextMenu("Generate")]
     private void Generate()
     {
