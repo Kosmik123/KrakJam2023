@@ -6,7 +6,7 @@ public class RootCollider : MonoBehaviour
     private Root root;
 
     [ContextMenu("Generate Colliders")]
-    private void GenerateColliders()
+    public void GenerateColliders()
     {
         var nodes = root.Nodes;
         int count = nodes.Count;
