@@ -8,7 +8,7 @@ public class RootRenderer : MonoBehaviour
     [SerializeField]
     private Root root;
     [SerializeField]
-    private MeshFilter outdideMeshFilter;    
+    private MeshFilter outsideMeshFilter;    
     [SerializeField]
     private MeshFilter insideMeshFilter;
 
@@ -110,7 +110,7 @@ public class RootRenderer : MonoBehaviour
         }
 
         mesh.CombineMeshes(meshInstances.ToArray());
-        outdideMeshFilter.sharedMesh = mesh;
+        outsideMeshFilter.sharedMesh = mesh;
         var insideMesh = Instantiate(mesh);
         insideMesh.triangles = insideMesh.triangles.Reverse().ToArray();
         insideMeshFilter.sharedMesh = insideMesh;
