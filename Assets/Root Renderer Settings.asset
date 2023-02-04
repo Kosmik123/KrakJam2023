@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7a9ef21d80c66744b708d905692186f, type: 3}
+  m_Name: Root Renderer Settings
+  m_EditorClassIdentifier: 
+  straightMeshVariants:
+  - {fileID: -7387706064836869012, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
+  - {fileID: 8691780276856062721, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
+  - {fileID: 6239881831769578202, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
+  turnMeshVariants:
+  - {fileID: 3390558720134950976, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
+  - {fileID: 6255687079079774844, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
+  endingMeshVariants:
+  - {fileID: 3163171260390484736, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
+  - {fileID: -125435165217083709, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
