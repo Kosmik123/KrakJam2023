@@ -19,7 +19,7 @@ public class TransformSmoother : MonoBehaviour
         get => targetPosition;
         set
         {
-            initialPositon = transform.localPosition;
+            initialPositon = transform.position;
             targetPosition = value;
             timer = 0;
         }
@@ -30,7 +30,7 @@ public class TransformSmoother : MonoBehaviour
         get => targetRotation;
         set
         {
-            initialRotation = transform.localRotation;
+            initialRotation = transform.rotation;
             targetRotation = value;
             timer = 0;
         }
@@ -59,8 +59,7 @@ public class TransformSmoother : MonoBehaviour
             currentPositon = targetPosition;
             currentRotation = targetRotation;
         }
-        transform.localPosition = currentPositon;
-        transform.localRotation = currentRotation;
+        transform.SetPositionAndRotation(currentPositon, currentRotation);
     }
 
     private void OnValidate()
