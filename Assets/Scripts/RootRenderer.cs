@@ -102,23 +102,18 @@ public class RootRenderer : MonoBehaviour
             Vector3 firstSingleSegmentOffeset = 0.5f * (singleSegmentLength) * direction;
             for (int segmentIndex = 0; segmentIndex < singleSegmentsCount; segmentIndex++)
             {
-                bool isEnding = (isFirstNode && segmentIndex == 0) || (nodeIndex == nodesCount - 1 && segmentIndex == singleSegmentsCount - 1);
-                Mesh segmentMesh = isEnding ? settings.EndingMesh : settings.StraightMesh;
+                Mesh segmentMesh = (isFirstNode && segmentIndex == 0) || (nodeIndex == nodesCount - 1 && segmentIndex == singleSegmentsCount - 1)
+                    ? settings.EndingMesh : settings.StraightMesh;
 
                 Vector3 segmentPosition = previousNodePosition + firstSingleSegmentOffeset + segmentIndex * singleSegmentLength * direction;
-                var invertedMesh = Instantiate(segmentMesh);
-                invertedMesh.triangles = invertedMesh.triangles.Reverse().ToArray();
-
-                var outsideMesh = isEnding ? invertedMesh : segmentMesh; 
-                var insideMesh = isEnding ? segmentMesh : invertedMesh; 
-
-                CreateMeshRenderer(outsideMesh, segmentPosition, segmentRotation, segmentScale, outsideMeshesHolder, outsideMaterial);
+                CreateMeshRenderer(segmentMesh, segmentPosition, segmentRotation, segmentScale, outsideMeshesHolder, outsideMaterial);
+                var insideMesh = Instantiate(segmentMesh);
+                insideMesh.triangles = insideMesh.triangles.Reverse().ToArray();
                 CreateMeshRenderer(insideMesh, segmentPosition, segmentRotation, segmentScale, insideMeshesHolder, insideMaterial);
             }
 
             var nodeMesh = settings.TurnMesh;
-            if (nodeIndex < nodesCount - 1)
-                CreateMeshRenderer(nodeMesh, nodePosition, Quaternion.identity, new Vector3(0.7f, 0.7f, 0.7f), outsideMeshesHolder, outsideMaterial);
+            CreateMeshRenderer(nodeMesh, nodePosition, Quaternion.identity, new Vector3(0.7f, 0.7f, 0.7f), outsideMeshesHolder, outsideMaterial);
 
             previousNodePosition = nodePosition;
         }
@@ -138,7 +133,6 @@ public class RootRenderer : MonoBehaviour
         filter.sharedMesh = mesh;
         var renderer = gameObject.AddComponent<MeshRenderer>();
         renderer.sharedMaterial = material;
-        renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         if (Application.isPlaying)
         {
             filter.mesh = mesh;
