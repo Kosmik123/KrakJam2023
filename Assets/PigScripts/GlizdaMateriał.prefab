@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6820899549940021643}
   - component: {fileID: 6820899549940021749}
   - component: {fileID: -2514366359452677132}
-  - component: {fileID: -8650000635571310500}
+  - component: {fileID: -6009201925699954061}
   m_Layer: 0
   m_Name: "GlizdaMateria\u0142"
   m_TagString: Untagged
@@ -111,7 +111,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &-8650000635571310500
+--- !u!54 &-6009201925699954061
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
