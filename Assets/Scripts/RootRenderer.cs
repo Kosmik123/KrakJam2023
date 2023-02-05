@@ -20,22 +20,19 @@ public class RootRenderer : MonoBehaviour
 
     private Mesh mesh;
 
-
     [ContextMenu("Generate mesh")]
-    private void GenerateMesh()
+    public void GenerateMesh()
     {
         var nodes = root.Nodes;
         int nodesCount = nodes.Count;
         if (nodesCount == 0)
             return;
 
-        SnapAxis previousSnapAxis;
         mesh = new Mesh();
         mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
 
         List<CombineInstance> meshInstances = new List<CombineInstance>(nodesCount * 2);
         Vector3Int previousNodePosition = nodes[0].Position;
-
         for (int nodeIndex = 1; nodeIndex < nodesCount; nodeIndex++)
         {
             bool firstNode = nodeIndex == 1;
