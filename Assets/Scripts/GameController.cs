@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField]
-    private RespawnPotins respawnPotins;
+    private RespawnPoints respawnPotins;
 
     [SerializeField]
     private LevelGenerator levelGenerator;

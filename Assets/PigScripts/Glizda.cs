@@ -5,25 +5,53 @@ using UnityEngine;
 
 public class Glizda : MonoBehaviour
 {
-    [SerializeField] RespawnPotins respawnPotins;
-    [SerializeField] TextMeshProUGUI Score; 
-    private void Start()
+    private const string emisionColorName = "_EmissionColor";
+    private RespawnPoints respawnPoints;
+    private TextMeshProUGUI Score;
+
+    [SerializeField]
+    private Renderer meshRenderer;
+    private Transform player;
+
+    [SerializeField]
+    private float emissionStartDistance;
+    [SerializeField]
+    private float emissionForce;
+    [ColorUsage(true, true)]
+    private Color emissionColor;
+
+    private void Awake()
     {
-        respawnPotins = GameObject.FindGameObjectWithTag("RespawnPotins").GetComponent<RespawnPotins>();
+        respawnPoints = GameObject.FindGameObjectWithTag("RespawnPotins").GetComponent<RespawnPoints>();
         Score = GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>();
+        player = GameObject.FindGameObjectWithTag("Kret").transform;
+        emissionColor = meshRenderer.material.GetColor(emisionColorName);
     }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.transform.CompareTag("Kret"))
+        if (collision.gameObject.transform == player)
         {
-            Debug.LogError("TAK £OO");
-            respawnPotins.Score += 1;
-            Score.text = "Score " + respawnPotins.Score;
-            transform.position = respawnPotins.drawPosition();
+            respawnPoints.Score += 1;
+            Score.text = "Score " + respawnPoints.Score;
+            transform.position = respawnPoints.drawPosition();
         }
     }
+
     private void OnCollisionStay(Collision collision)
     {
-        transform.position = respawnPotins.drawPosition();
+        transform.position = respawnPoints.drawPosition();
     }
+
+    private void Update()
+    {
+        float distanceFromBorder = Vector3.Distance(transform.position, player.position) - emissionStartDistance;
+        if (distanceFromBorder > 0)
+        {
+            float emissionValue = distanceFromBorder * emissionForce;
+            meshRenderer.material.SetColor(emisionColorName, emissionValue * emissionColor);
+        }
+    }
+
+
 }

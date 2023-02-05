@@ -7,9 +7,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6015983783449956613, guid: d79fc73b6c0e0e145b84344a88878276, type: 3}
+      propertyPath: emissionForce
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7018581260847815962, guid: d79fc73b6c0e0e145b84344a88878276, type: 3}
       propertyPath: m_Name
-      value: Worm
+      value: Worm Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7650721675419076512, guid: d79fc73b6c0e0e145b84344a88878276, type: 3}
       propertyPath: m_RootOrder
