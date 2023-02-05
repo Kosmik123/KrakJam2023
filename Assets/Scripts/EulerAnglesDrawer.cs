@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class EulerAnglesAttribute : PropertyAttribute { }
 
 [CustomPropertyDrawer(typeof(EulerAnglesAttribute))]
@@ -22,3 +23,4 @@ public class EulerAnglesDrawer : PropertyDrawer
         EditorGUI.EndProperty();
     }
 }
+#endif 

@@ -9,8 +9,10 @@ public class TransformSmoother : MonoBehaviour
     [Header("Properties")]
     [SerializeField]
     private Vector3 targetPosition;
-    
-    [SerializeField, EulerAngles]
+
+    #if UNITY_EDITOR 
+    [SerializeField, EulerAngles] 
+    #endif 
     private Quaternion targetRotation;
 
     private float timer;
