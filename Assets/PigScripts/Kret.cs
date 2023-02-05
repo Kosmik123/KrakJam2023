@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Kret : MonoBehaviour
 {
-    [SerializeField] RespawnPotins RespawnPotins;
+    [SerializeField] RespawnPoints RespawnPotins;
     [SerializeField] TransformSmoother transformSmoother;
     [SerializeField] GridPosition gridPosition;
     [SerializeField] Rigidbody rigidbodydd;
     private void Start()
     {
-        RespawnPotins = GameObject.FindGameObjectWithTag("RespawnPotins").GetComponent<RespawnPotins>();
+        RespawnPotins = GameObject.FindGameObjectWithTag("RespawnPotins").GetComponent<RespawnPoints>();
     }
 
     private void OnCollisionStay(Collision collision)
