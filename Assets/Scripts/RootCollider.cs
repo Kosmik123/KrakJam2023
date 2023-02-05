@@ -5,6 +5,26 @@ public class RootCollider : MonoBehaviour
     [SerializeField]
     private Root root;
 
+    [ContextMenu("Clear Colliders")]
+    private void Clear()
+    {
+        var colliders = GetComponents<CapsuleCollider>();
+        foreach (var collider in colliders)
+            BetterDestroy(collider);
+    }
+
+    public static void BetterDestroy(Component component)
+    {
+        if (Application.isPlaying)
+        {
+            Destroy(component);
+        }
+        else
+        {
+            DestroyImmediate(component);
+        }
+    }
+
     [ContextMenu("Generate Colliders")]
     public void GenerateColliders()
     {

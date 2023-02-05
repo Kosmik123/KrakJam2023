@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -8,9 +9,14 @@ public class RootRenderer : MonoBehaviour
     [SerializeField]
     private Root root;
     [SerializeField]
-    private MeshFilter outsideMeshFilter;    
+    private Transform outsideMeshesHolder;    
     [SerializeField]
-    private MeshFilter insideMeshFilter;
+    private Transform insideMeshesHolder;
+
+    [SerializeField]
+    private Material outsideMaterial;
+    [SerializeField]
+    private Material insideMaterial;
 
     [Header("Settings")]
     [SerializeField]
@@ -20,23 +26,45 @@ public class RootRenderer : MonoBehaviour
 
     private Mesh mesh;
 
-    [ContextMenu("Generate mesh")]
-    public void GenerateMesh()
+    [ContextMenu("Clear")]
+    public void Clear()
     {
+        var meshRenderers = outsideMeshesHolder.GetComponentsInChildren<MeshRenderer>();
+        foreach (var renderer in meshRenderers)
+            BetterDestroy(renderer.gameObject);
+
+        meshRenderers = insideMeshesHolder.GetComponentsInChildren<MeshRenderer>();
+        foreach (var renderer in meshRenderers)
+            BetterDestroy(renderer.gameObject);
+    }
+
+    public static void BetterDestroy(GameObject gameObject)
+    {
+        if (Application.isPlaying)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DestroyImmediate(gameObject); 
+        }
+    }
+
+    [ContextMenu("Generate Renderers")]
+    public void GenerateRenderers()
+    {
+        Clear();
+
         var nodes = root.Nodes;
         int nodesCount = nodes.Count;
         if (nodesCount == 0)
             return;
 
-        mesh = new Mesh();
-        
-
-        List<CombineInstance> meshInstances = new List<CombineInstance>(nodesCount * 2);
         Vector3Int previousNodePosition = nodes[0].Position;
         for (int nodeIndex = 1; nodeIndex < nodesCount; nodeIndex++)
         {
-            bool firstNode = nodeIndex == 1;
-            bool lastNode = nodeIndex == nodesCount - 1;
+            bool isFirstNode = nodeIndex == 1;
+            bool isLastNode = nodeIndex == nodesCount - 1;
 
             var node = nodes[nodeIndex];
             Vector3Int nodePosition = node.Position;
@@ -55,12 +83,92 @@ public class RootRenderer : MonoBehaviour
                 : direction.z != 0 ? Quaternion.AngleAxis(90, Vector3.right)
                 : Quaternion.identity;
 
-            if (firstNode && signedLength < 0)
+            if (isFirstNode && (zDiff < 0 || yDiff < 0 || xDiff != 0))
+            {
+                Vector3 firstNodeRotationAxis = GetOtherAxis(direction);
+                segmentRotation *= Quaternion.AngleAxis( 180, firstNodeRotationAxis);
+                if (xDiff > 0)
+                    segmentRotation *= Quaternion.AngleAxis(180, Vector3.right);
+            }
+            else if (isLastNode && (zDiff > 0 || yDiff > 0 || xDiff < 0))
+            {
+                Vector3 lastNodeRotationAxis = GetOtherAxis(direction);
+                segmentRotation = Quaternion.AngleAxis(180, lastNodeRotationAxis) * segmentRotation;
+            }
+
+            Vector3 firstSingleSegmentOffeset = 0.5f * singleSegmentLength * direction;
+            for (int segmentIndex = 0; segmentIndex < singleSegmentsCount; segmentIndex++)
+            {
+                Mesh segmentMesh = (isFirstNode && segmentIndex == 0) || (nodeIndex == nodesCount - 1 && segmentIndex == singleSegmentsCount - 1)
+                    ? settings.EndingMesh : settings.StraightMesh;
+
+                Vector3 segmentPosition = previousNodePosition + firstSingleSegmentOffeset + segmentIndex * singleSegmentLength * direction;
+                CreateMeshRenderer(segmentMesh, segmentPosition, segmentRotation, singleSegmentLength, outsideMeshesHolder, outsideMaterial);
+            }
+
+
+            previousNodePosition = nodePosition;
+        }
+    }
+
+    private void CreateMeshRenderer(Mesh mesh, Vector3 position, Quaternion rotation, float length, Transform parent, Material material) 
+    {
+        var gameObject = new GameObject($"Mesh {parent.transform.childCount}");
+        var transform = gameObject.transform;
+        transform.localPosition = position;
+        transform.localScale = new Vector3(1, length, 1);
+        transform.localRotation = rotation;
+        transform.parent = parent;
+        
+        var filter = gameObject.AddComponent<MeshFilter>();
+        filter.sharedMesh = mesh;
+        var renderer = gameObject.AddComponent<MeshRenderer>();
+        renderer.sharedMaterial = material;
+        if (Application.isPlaying)
+        {
+            filter.mesh = mesh;
+            renderer.material = material;
+        }
+    }
+
+    //[ContextMenu("Generate mesh")]
+    public void GenerateMesh()
+    {
+        var nodes = root.Nodes;
+        int nodesCount = nodes.Count;
+        if (nodesCount == 0)
+            return;
+
+        List<CombineInstance> meshInstances = new List<CombineInstance>(nodesCount * 2);
+        Vector3Int previousNodePosition = nodes[0].Position;
+        for (int nodeIndex = 1; nodeIndex < nodesCount; nodeIndex++)
+        {
+            bool isFirstNode = nodeIndex == 1;
+            bool isLastNode = nodeIndex == nodesCount - 1;
+
+            var node = nodes[nodeIndex];
+            Vector3Int nodePosition = node.Position;
+
+            int xDiff = nodePosition.x - previousNodePosition.x;
+            int yDiff = nodePosition.y - previousNodePosition.y;
+            int zDiff = nodePosition.z - previousNodePosition.z;
+
+            Vector3 direction = new Vector3(xDiff, yDiff, zDiff).normalized;
+            int signedLength = xDiff + yDiff + zDiff;
+            int length = Mathf.Abs(signedLength);
+
+            int singleSegmentsCount = (length - 1) / maxSingleSegmentLength + 1;
+            float singleSegmentLength = length / (float)singleSegmentsCount;
+            Quaternion segmentRotation = direction.x != 0 ? Quaternion.AngleAxis(90, Vector3.forward)
+                : direction.z != 0 ? Quaternion.AngleAxis(90, Vector3.right)
+                : Quaternion.identity;
+
+            if (isFirstNode && signedLength < 0)
             {
                 Vector3 firstNodeRotationAxis = GetOtherAxis(direction);
                 segmentRotation *= Quaternion.AngleAxis(180, firstNodeRotationAxis);
             }
-            else if (lastNode && (zDiff > 0 || yDiff > 0 || xDiff < 0))
+            else if (isLastNode && (zDiff > 0 || yDiff > 0 || xDiff < 0))
             {
                 Vector3 lastNodeRotationAxis = GetOtherAxis(direction);
                 segmentRotation = Quaternion.AngleAxis(180, lastNodeRotationAxis) * segmentRotation;
@@ -71,7 +179,7 @@ public class RootRenderer : MonoBehaviour
 
             for (int segmentIndex = 0; segmentIndex < singleSegmentsCount; segmentIndex++)
             {
-                Mesh segmentMesh = (firstNode && segmentIndex == 0) || (nodeIndex == nodesCount - 1 && segmentIndex == singleSegmentsCount - 1)
+                Mesh segmentMesh = (isFirstNode && segmentIndex == 0) || (nodeIndex == nodesCount - 1 && segmentIndex == singleSegmentsCount - 1)
                     ? settings.EndingMesh : settings.StraightMesh;
 
                 Vector3 segmentPosition = previousNodePosition + firstSingleSegmentOffeset + segmentIndex * singleSegmentLength * direction;
@@ -94,31 +202,9 @@ public class RootRenderer : MonoBehaviour
                 };
                 meshInstances.Add(nodeMeshInstance);
             }
-
+            mesh = new Mesh();
             previousNodePosition = nodePosition;
         }
-
-        try
-        {
-            mesh.CombineMeshes(meshInstances.ToArray());
-        }
-        catch
-        {
-            mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-            mesh.CombineMeshes(meshInstances.ToArray());
-        }
-
-        outsideMeshFilter.sharedMesh = mesh;
-        if (Application.isPlaying)
-            outsideMeshFilter.mesh = mesh;
-
-        var insideMesh = Instantiate(mesh);
-        insideMesh.triangles = insideMesh.triangles.Reverse().ToArray();
-        insideMeshFilter.sharedMesh = insideMesh;
-        if (Application.isPlaying)
-            insideMeshFilter.mesh = insideMesh;
-
-
     }
 
     private static Vector3 GetOtherAxis(Vector3 direction)
