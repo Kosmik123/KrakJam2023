@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Root Renderer Settings
   m_EditorClassIdentifier: 
   straightMeshVariants:
-  - {fileID: -7387706064836869012, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
-  - {fileID: 8691780276856062721, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
-  - {fileID: 6239881831769578202, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
+  - {fileID: -7387706064836869012, guid: 453b72d8c85a9004c8b458c180157a98, type: 3}
+  - {fileID: 8691780276856062721, guid: 453b72d8c85a9004c8b458c180157a98, type: 3}
+  - {fileID: 6239881831769578202, guid: 453b72d8c85a9004c8b458c180157a98, type: 3}
   turnMeshVariants:
-  - {fileID: 3390558720134950976, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
-  - {fileID: 6255687079079774844, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
+  - {fileID: 3390558720134950976, guid: 453b72d8c85a9004c8b458c180157a98, type: 3}
+  - {fileID: 6255687079079774844, guid: 453b72d8c85a9004c8b458c180157a98, type: 3}
   endingMeshVariants:
-  - {fileID: 3163171260390484736, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
-  - {fileID: -125435165217083709, guid: 989b647bcaf4b7e47b0d41ac479fe2c0, type: 3}
+  - {fileID: 3163171260390484736, guid: 453b72d8c85a9004c8b458c180157a98, type: 3}
+  - {fileID: -125435165217083709, guid: 453b72d8c85a9004c8b458c180157a98, type: 3}
