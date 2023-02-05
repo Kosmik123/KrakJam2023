@@ -7,6 +7,7 @@ public class Kret : MonoBehaviour
     [SerializeField] RespawnPotins RespawnPotins;
     [SerializeField] TransformSmoother transformSmoother;
     [SerializeField] GridPosition gridPosition;
+    [SerializeField] Rigidbody rigidbodydd;
     private void Start()
     {
         RespawnPotins = GameObject.FindGameObjectWithTag("RespawnPotins").GetComponent<RespawnPotins>();
@@ -18,5 +19,6 @@ public class Kret : MonoBehaviour
         transformSmoother.Position = Tak³oo;
         gridPosition.Position = Tak³oo.ToVector3Int();
     }
+
 
 }
