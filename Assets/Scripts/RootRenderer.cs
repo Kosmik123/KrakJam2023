@@ -75,7 +75,7 @@ public class RootRenderer : MonoBehaviour
 
             Vector3 direction = new Vector3(xDiff, yDiff, zDiff).normalized;
             int signedLength = xDiff + yDiff + zDiff;
-            int length = Mathf.Abs(signedLength);
+            int length = Mathf.Abs(signedLength) + 1;
 
             if (length == 2)
                 Debug.Log("");
@@ -98,30 +98,34 @@ public class RootRenderer : MonoBehaviour
                 segmentRotation = Quaternion.AngleAxis(180, lastNodeRotationAxis) * segmentRotation;
             }
 
-            Vector3 firstSingleSegmentOffeset = 0.5f * (singleSegmentLength + 1) * direction;
+            Vector3 segmentScale = new Vector3(1, singleSegmentLength, 1);
+            Vector3 firstSingleSegmentOffeset = 0.5f * (singleSegmentLength) * direction;
             for (int segmentIndex = 0; segmentIndex < singleSegmentsCount; segmentIndex++)
             {
                 Mesh segmentMesh = (isFirstNode && segmentIndex == 0) || (nodeIndex == nodesCount - 1 && segmentIndex == singleSegmentsCount - 1)
                     ? settings.EndingMesh : settings.StraightMesh;
 
                 Vector3 segmentPosition = previousNodePosition + firstSingleSegmentOffeset + segmentIndex * singleSegmentLength * direction;
-                CreateMeshRenderer(segmentMesh, segmentPosition, segmentRotation, singleSegmentLength, outsideMeshesHolder, outsideMaterial);
+                CreateMeshRenderer(segmentMesh, segmentPosition, segmentRotation, segmentScale, outsideMeshesHolder, outsideMaterial);
                 var insideMesh = Instantiate(segmentMesh);
                 insideMesh.triangles = insideMesh.triangles.Reverse().ToArray();
-                CreateMeshRenderer(insideMesh, segmentPosition, segmentRotation, singleSegmentLength, insideMeshesHolder, insideMaterial);
+                CreateMeshRenderer(insideMesh, segmentPosition, segmentRotation, segmentScale, insideMeshesHolder, insideMaterial);
             }
+
+            var nodeMesh = settings.TurnMesh;
+            CreateMeshRenderer(nodeMesh, nodePosition, Quaternion.identity, new Vector3(0.7f, 0.7f, 0.7f), outsideMeshesHolder, outsideMaterial);
 
             previousNodePosition = nodePosition;
         }
     }
 
-    private void CreateMeshRenderer(Mesh mesh, Vector3 position, Quaternion rotation, float length, Transform parent, Material material) 
+    private void CreateMeshRenderer(Mesh mesh, Vector3 position, Quaternion rotation, Vector3 scale, Transform parent, Material material) 
     {
         var gameObject = new GameObject($"Mesh {parent.transform.childCount}");
         gameObject.layer = parent.gameObject.layer;
         var transform = gameObject.transform;
         transform.localPosition = position;
-        transform.localScale = new Vector3(1, length, 1);
+        transform.localScale = scale;
         transform.localRotation = rotation;
         transform.parent = parent;
 
