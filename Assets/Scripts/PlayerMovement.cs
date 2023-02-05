@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     private GridPosition gridPosition;
     [SerializeField]
     private Transform forwardProvider;
+    [SerializeField]
+    private Transform model;
 
     [Header("Input")]
     [SerializeField]
@@ -56,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (CanMove(direction))
             gridPosition.Position += direction.ToVector3Int();
+        model.forward = direction;
     }
 
     private bool CanMove(Vector3 direction)
