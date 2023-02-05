@@ -16,7 +16,7 @@ public class RespawnPotins : MonoBehaviour
     private int axisY;
     private int axisZ;
 
-    private void Start()
+    public void StartLevel()
     {
         Instantiate(Kret).transform.position = drawPosition();
         RespawnObejct();
