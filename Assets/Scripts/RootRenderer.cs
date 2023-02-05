@@ -29,7 +29,7 @@ public class RootRenderer : MonoBehaviour
             return;
 
         mesh = new Mesh();
-        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+        
 
         List<CombineInstance> meshInstances = new List<CombineInstance>(nodesCount * 2);
         Vector3Int previousNodePosition = nodes[0].Position;
@@ -84,7 +84,6 @@ public class RootRenderer : MonoBehaviour
                 meshInstances.Add(segmentMeshInstance);
             }
 
-
             if (nodeIndex != nodesCount - 1)
             {
                 var nodeMatrix = Matrix4x4.TRS(node.Position, Quaternion.identity, Vector3.one);
@@ -99,11 +98,27 @@ public class RootRenderer : MonoBehaviour
             previousNodePosition = nodePosition;
         }
 
-        mesh.CombineMeshes(meshInstances.ToArray());
+        try
+        {
+            mesh.CombineMeshes(meshInstances.ToArray());
+        }
+        catch
+        {
+            mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+            mesh.CombineMeshes(meshInstances.ToArray());
+        }
+
         outsideMeshFilter.sharedMesh = mesh;
+        if (Application.isPlaying)
+            outsideMeshFilter.mesh = mesh;
+
         var insideMesh = Instantiate(mesh);
         insideMesh.triangles = insideMesh.triangles.Reverse().ToArray();
         insideMeshFilter.sharedMesh = insideMesh;
+        if (Application.isPlaying)
+            insideMeshFilter.mesh = insideMesh;
+
+
     }
 
     private static Vector3 GetOtherAxis(Vector3 direction)
