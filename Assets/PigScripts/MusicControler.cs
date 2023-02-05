@@ -7,6 +7,12 @@ public class MusicControler : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip[] musicControlers;
 
+
+    private void Start()
+    {
+        audioSource.clip = musicControlers[0];
+        audioSource.Play();
+    }
     private void Update()
     {
         SwitchMusic();
