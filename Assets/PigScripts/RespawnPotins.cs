@@ -22,7 +22,6 @@ public class RespawnPotins : MonoBehaviour
         RespawnObejct();
     }
 
-
     public void RespawnObejct()
     {
         for (int i = 0; i < pointsTab.Length; ++i)
@@ -35,7 +34,6 @@ public class RespawnPotins : MonoBehaviour
     }
     public Vector3 drawPosition()
     {
-
         axisX = Random.Range(sectionSizeX[0], sectionSizeX[1]);
         axisY = Random.Range(sectionSizeY[0], sectionSizeY[1]);
         axisZ = Random.Range(sectionSizeZ[0], sectionSizeZ[1]);
