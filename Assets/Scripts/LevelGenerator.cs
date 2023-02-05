@@ -25,7 +25,7 @@ public class LevelGenerator : MonoBehaviour
         foreach (var root in roots)
         {
             var rootRenderer = root.GetComponent<RootRenderer>();
-            rootRenderer.GenerateMesh();
+            rootRenderer.GenerateRenderers();
             
             var rootCollider = root.GetComponent<RootCollider>();
             rootCollider.GenerateColliders();
