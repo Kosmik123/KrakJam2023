@@ -5,6 +5,8 @@ using UnityEngine;
 public class Kret : MonoBehaviour
 {
     [SerializeField] RespawnPotins RespawnPotins;
+    [SerializeField] TransformSmoother transformSmoother;
+    [SerializeField] GridPosition gridPosition;
     private void Start()
     {
         RespawnPotins = GameObject.FindGameObjectWithTag("RespawnPotins").GetComponent<RespawnPotins>();
@@ -12,6 +14,9 @@ public class Kret : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        transform.localPosition = RespawnPotins.drawPosition();
+      Vector3 Tak³oo =  RespawnPotins.drawPosition();
+        transformSmoother.Position = Tak³oo;
+        gridPosition.Position = Tak³oo.ToVector3Int();
     }
+
 }
